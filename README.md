@@ -1,8 +1,10 @@
-# Spectre OSS website
+# Spectre OSS
 
-A simple, responsive organization landing page built with Svelte 5 and SvelteKit 3. Includes the Spectre ghost, an introduction to the organization, and links to the Rabbit R1 projects.
+Minimal organization landing page built with Svelte 5 and SvelteKit 3.
 
-## Development
+**Website:** https://spectre-oss.github.io
+
+## Develop
 
 Use Node.js 22.12+ and npm.
 
@@ -11,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-## Checks and production build
+## Validate
 
 ```sh
 npm run check
@@ -19,9 +21,6 @@ npm run build
 npm run preview
 ```
 
-The static adapter generates the site in `build/`. Serve that directory from a static host at the domain root. Hosting is not configured yet.
+The static adapter writes the site to `build/`. GitHub Actions checks and builds pull requests, then builds and deploys pushes to `main` through GitHub Pages. Manual deployment is also available from the Actions tab. Repository Pages settings must use GitHub Actions as the build source.
 
-Page content and styles: `src/routes/+page.svelte`.
-Brand artwork: `src/lib/assets/favicon.svg`, supplied by the project owner. No new license is assigned to the artwork here.
-
-No external fonts, analytics, or backend services are required.
+Edit `src/routes/+page.svelte` to update the page. The project owner supplied the ghost artwork in `src/lib/assets/favicon.svg`; no new license is assigned to that artwork here.
