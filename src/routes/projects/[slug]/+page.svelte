@@ -34,7 +34,7 @@
   .project-page { max-width: 824px; margin: 0 auto; padding: 40px 32px 28px; }
   a { color: #ccc; text-decoration: none; transition: color .15s; } a:hover { color: #fff; }
   header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
-  .wordmark { grid-column: 2; grid-row: 1; justify-self: center; font-size: 17px; letter-spacing: -.4px; font-weight: 550; } .back { grid-column: 1; grid-row: 1; justify-self: start; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
+  .wordmark { grid-column: 2; grid-row: 1; justify-self: center; font-size: 17px; letter-spacing: -.4px; font-weight: 550; } .back { position: absolute; left: 32px; top: 40px; min-height: 29px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
   main { margin-top: clamp(72px, 14vh, 150px); }
   .eyebrow { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 10px; letter-spacing: 1.2px; color: #858585; }
   .status { letter-spacing: 0; } .status span { color: #ccc; padding-right: 4px; }
@@ -50,6 +50,6 @@
   .other-projects > span { font-size: 10px; letter-spacing: 1px; color: #666; width: 100%; }.other-projects a { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; }
   footer a { display: inline-flex; align-items: center; gap: 6px; }
   footer { display: flex; justify-content: space-between; margin-top: 64px; padding-top: 24px; border-top: 1px solid #242424; font-size: 11px; color: #666; }
-  @media(max-width: 560px) { .project-page { padding: 28px 24px; } .details section { grid-template-columns: 1fr; gap: 12px; } }
+  @media(max-width: 560px) { .project-page { padding: 28px 24px; } .back { left: 24px; top: 28px; } .details section { grid-template-columns: 1fr; gap: 12px; } }
   @media(prefers-reduced-motion: reduce) { a { transition: none; } }
 </style>

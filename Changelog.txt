@@ -1,3 +1,7 @@
+0.10.3 — 2026-10-22
+fix: position project back link at page top left
+- The project page back link now sits at the top left.
+
 0.10.2 — 2026-10-22
 fix: center project page wordmark and move back link left
 - Project pages now center the wordmark and place the back link on the left.
