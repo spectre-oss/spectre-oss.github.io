@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validate staged content and version a Conventional Commit before signing."""
 import datetime
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -78,6 +79,12 @@ def main():
         raise ValueError('Finish replaying history without regenerating release metadata; run the scanner separately.')
     message = '\n'.join(line for line in Path(sys.argv[1]).read_text().splitlines() if not line.startswith('#')).strip()
     scan('commit-message', message.encode())
+    pending = git_dir / 'pending-release.json'
+    def fingerprint():
+        return hashlib.sha256(message.encode() + b'\0' + git('rev-parse', '--verify', 'HEAD', check=False) + git('write-tree')).hexdigest()
+    if pending.exists() and pending.read_text().strip() == fingerprint():
+        return  # Metadata was prepared on the first attempt; Git can now include it.
+
     previous = from_head('VERSION')
     if previous is None:
         old_package = from_head('package.json')
@@ -127,7 +134,8 @@ def main():
         Path(name).write_text(data)
     git('add', '--', *outputs)
     scan_index()
-    print(f'Release {version}: staged version and Grok changelog. Review with git show after commit.')
+    pending.write_text(fingerprint())
+    raise ValueError(f'Release {version} prepared and staged. Retry the same commit command to include it; Grok will not be called again.')
 
 
 if __name__ == '__main__':

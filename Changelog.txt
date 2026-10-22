@@ -1,3 +1,9 @@
+0.1.1 — 2026-10-22
+fix: include generated release metadata in committed tree
+- Release 0.1.1 now commits generated release metadata (VERSION, Changelog.txt, and package version files) with the tree.
+- `commit_release` writes those generated files before the release commit so they are not left untracked.
+- Tests and the tools README cover the updated commit step.
+
 0.1.0 — 2026-10-22
 feat: redesign ProjectLibration landing and automate website releases
 - Redesigned the ProjectLibration landing page.
