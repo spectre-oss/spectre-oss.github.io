@@ -149,7 +149,7 @@
 
 {#if intro}<div class="intro-cover" aria-hidden="true"></div>{/if}
 
-<a class="identity" class:intro class:scrolled={scrollY > 24} href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
+<a class="identity" class:entering={intro} class:scrolled={scrollY > 24} href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
 
 <main>
   <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
@@ -211,7 +211,7 @@
   footer { margin-bottom: 32px; }
   .identity { --identity-top: 24px; position: fixed; z-index: 70; top: var(--identity-top); left: 50%; transform: translateX(-50%); min-height: 44px; padding: 8px 16px; border: 1px solid transparent; border-radius: 999px; background: transparent; transition: background .2s, border-color .2s, box-shadow .2s; align-self: center; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
   .intro-cover { position: fixed; inset: 0; z-index: 60; background: #000; pointer-events: none; animation: reveal-page 1.65s both; }
-  .identity.intro { animation: introduce-wordmark 1.5s cubic-bezier(.76,0,.24,1) both; }
+  .identity.entering { animation: introduce-wordmark 1.5s cubic-bezier(.76,0,.24,1) both; }
   @keyframes introduce-wordmark {
     0% { top: 50svh; transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
     18%, 42% { top: 50svh; transform: translate(-50%, -50%) scale(2.2); opacity: 1; }
@@ -246,5 +246,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .identity { --identity-top: 16px; } .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-card { padding: 22px; } }
-  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg, .identity.intro { animation: none; } .intro-cover { display: none; } }
+  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg, .identity.entering { animation: none; } .intro-cover { display: none; } }
 </style>

@@ -1,3 +1,7 @@
+0.13.1 — 2026-10-22
+fix: isolate wordmark intro styles to prevent size snap
+- Fixed the wordmark intro so its styles stay isolated and the logo no longer snaps to a different size.
+
 0.13.0 — 2026-10-22
 feat: introduce SpectreOSS centered on black before moving to header
 - The homepage now opens on black with SpectreOSS centered, then moves it into the header.
