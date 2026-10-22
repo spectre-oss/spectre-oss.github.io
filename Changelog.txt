@@ -1,0 +1,5 @@
+0.1.0 — 2026-10-22
+feat: redesign ProjectLibration landing and automate website releases
+- Redesigned the ProjectLibration landing page.
+- Added `tools/commit_release.py` and tests to automate website release commits, plus installable commit-msg and pre-commit hooks.
+- Added a VERSION file and updated the project and tools READMEs.
