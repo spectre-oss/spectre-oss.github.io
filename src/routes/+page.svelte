@@ -11,7 +11,7 @@
 
 <main>
   <header class="hero">
-    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div></div>
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><img class="background-logo" src={ghost} alt="" /></div>
     <div class="hero-inner">
     <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><img src={ghost} alt="" width="38" height="38" /><span>SpectreOSS</span></a>
     <div class="hero-copy">
@@ -62,6 +62,8 @@
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
   .grid { position: absolute; inset: -96px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 96px 96px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
+  .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); height: auto; opacity: .055; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
+  @keyframes logo-float { from { transform: translate(-54%, -55%) rotate(-9deg); } to { transform: translate(-46%, -45%) rotate(9deg); } }
   @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
   @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(96px, 96px); } }
   .explore { display: inline-flex; align-items: center; gap: 18px; align-self: flex-start; font-size: 12px; color: #888; }
@@ -92,5 +94,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { a { transition: none; } .halo, .grid { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { a { transition: none; } .halo, .grid, .background-logo { animation: none; } }
 </style>
