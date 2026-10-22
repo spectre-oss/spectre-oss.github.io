@@ -1,3 +1,7 @@
+0.8.1 — 2026-10-22
+fix: shrink cloth interaction to cursor sized area
+- Cloth interaction now responds only in a cursor-sized area.
+
 0.8.0 — 2026-10-22
 feat: add snappy bounce to explore chevron
 - The explore chevron now bounces with a snappier motion on the home page.

@@ -59,10 +59,10 @@
       context.clearRect(0, 0, width, height);
       for (const point of points) {
         const ox = x - point.x, oy = y - point.y;
-        const weight = Math.exp(-(ox * ox + oy * oy) / (155 * 155));
+        const weight = Math.exp(-(ox * ox + oy * oy) / (18 * 18));
         const amount = reducedMotion.matches ? 0 : weight * pressure;
         const targetX = ox * .22 * amount;
-        const targetY = (oy * .22 + 28) * amount;
+        const targetY = (oy * .22 + 6) * amount;
         point.vx = (point.vx + (targetX - point.dx) * .025 * dt) * Math.pow(.84, dt);
         point.vy = (point.vy + (targetY - point.dy) * .025 * dt) * Math.pow(.84, dt);
         point.dx += point.vx * dt; point.dy += point.vy * dt;
@@ -85,7 +85,7 @@
       context.lineWidth = .7;
       context.strokeStyle = 'rgba(255,255,255,.025)';
       context.stroke(path);
-      const glow = context.createRadialGradient(x, y, 0, x, y, 260);
+      const glow = context.createRadialGradient(x, y, 0, x, y, backgroundLit ? 32 : 260);
       glow.addColorStop(0, `rgba(216,230,255,${.06 + pressure * .14})`);
       glow.addColorStop(1, 'rgba(216,230,255,0)');
       context.strokeStyle = glow;
