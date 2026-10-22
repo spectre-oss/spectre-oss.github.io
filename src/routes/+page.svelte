@@ -42,7 +42,7 @@
     <p class="intro">Open software.<br />Hardware on your terms.</p>
     <p class="description">We explore hardware, build independent Linux systems, and share the tools to make existing devices your own.</p>
     </div>
-    <a class="explore" href="#projects">Explore our projects <span aria-hidden="true">↓</span></a>
+    <a class="explore" href="#projects">Explore our projects <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></a>
     </div>
   </header>
 
@@ -98,7 +98,7 @@
   @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
   @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(96px, 96px); } }
   .explore { display: inline-flex; align-items: center; gap: 18px; align-self: flex-start; font-size: 12px; color: #888; }
-  .explore span { color: #bbb; }
+  .explore svg { color: #bbb; }
   section, footer { width: min(100% - 64px, 696px); margin-left: auto; margin-right: auto; }
   footer { margin-bottom: 32px; }
   .identity { align-self: center; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }

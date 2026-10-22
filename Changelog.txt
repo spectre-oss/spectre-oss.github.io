@@ -1,3 +1,7 @@
+0.5.2 — 2026-10-22
+fix: use SVG chevron for explore projects link
+- The Explore projects link on the home page now uses an SVG chevron.
+
 0.5.1 — 2026-10-22
 fix: make hero hover glow respond immediately
 - The home page hero hover glow now appears as soon as the pointer enters, without the previous delay.
