@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { projects } from '#lib/projects.js';
   import { onMount } from 'svelte';
   import ghostSource from '#lib/assets/favicon.svg?raw';
   const ghostMarkup = ghostSource.replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
@@ -126,7 +127,7 @@
 
 <svelte:head>
   <title>SpectreOSS — Open software, independent hardware</title>
-  <meta name="description" content="SpectreOSS builds open software and explores independent Linux systems for existing hardware. Explore Rabbit R1 and ProjectLibration." />
+  <meta name="description" content="SpectreOSS builds open software and explores independent Linux systems for existing hardware. Explore SpectreR1, ProjectLibration, and Shiraz." />
   <meta name="theme-color" content="#000000" />
 </svelte:head>
 
@@ -147,25 +148,16 @@
 
   <section aria-labelledby="projects">
     <h1 id="projects">Our projects</h1>
-    <article>
-      <div class="project-heading"><h2>Rabbit R1</h2><span class="status">In development</span></div>
-      <p>An independent Linux stack for the Rabbit R1. Our work spans hardware reverse engineering, the kernel, the operating system, and a custom launcher.</p>
-      <nav aria-label="Rabbit R1 repositories">
-        <a href="https://github.com/spectre-oss/rabbit-r1">Overview <span aria-hidden="true">↗</span></a>
-        <a href="https://github.com/spectre-oss/rabbit-r1-kernel">Kernel <span aria-hidden="true">↗</span></a>
-        <a href="https://github.com/spectre-oss/rabbit-r1-os">OS <span aria-hidden="true">↗</span></a>
-        <a href="https://github.com/spectre-oss/spectre-launcher">Launcher <span aria-hidden="true">↗</span></a>
-      </nav>
-    </article>
-    <article>
-      <div class="project-heading"><h2>ProjectLibration</h2><span class="status">Early stage</span></div>
-      <p>Give your phone a new life with mobile Linux. Reusable AI skills and system prompts help you investigate device support, build locally, and plan an installation of Droidian, Mobian, or an Arch Linux mobile system.</p>
-      <p class="note">Linux host only. Currently a starter skill; device support and installation paths must be verified for each phone.</p>
-      <nav aria-label="ProjectLibration resources">
-        <a href="https://github.com/spectre-oss/project-libration">Explore the project <span aria-hidden="true">↗</span></a>
-        <a href="https://github.com/spectre-oss/project-libration/blob/main/skills/projectlibration.md">Read the skill <span aria-hidden="true">↗</span></a>
-      </nav>
-    </article>
+    <div class="project-cards">
+      {#each projects as project}
+        <a class="project-card" href={'/projects/' + project.slug + '/'}>
+          <div class="card-top"><span>{project.number} / {project.category}</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <h2>{project.name}</h2>
+          <p>{project.summary}</p>
+          <div class="card-bottom"><span class="status">{project.status}</span><span>View project <span aria-hidden="true">→</span></span></div>
+        </a>
+      {/each}
+    </div>
   </section>
 
   <footer>
@@ -175,9 +167,6 @@
 </main>
 
 <style>
-  :global(*) { box-sizing: border-box; }
-  :global(html) { background: #000; color-scheme: dark; scroll-behavior: smooth; }
-  :global(body) { margin: 0; background: #000; color: #e8e8e8; font-family: system-ui, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.7; }
   main { overflow: clip; }
   .hero { position: relative; isolation: isolate; min-height: 100vh; min-height: 100svh; display: flex; }
   .hero-inner { position: relative; width: min(100%, 760px); margin: 0 auto; padding: 48px 32px 40px; display: flex; flex-direction: column; }
@@ -209,22 +198,25 @@
   section { margin-top: 68px; }
   #projects { scroll-margin-top: 40px; }
   h1 { padding-bottom: 18px; color: #777; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; }
-  article { padding: 30px 0 34px; border-top: 1px solid #242424; }
-  .project-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+  .project-cards { display: grid; gap: 16px; }
+  .project-card { display: block; padding: 28px; background: #080808; border: 1px solid #242424; border-radius: 8px; transition: border-color .18s, background .18s, transform .18s; }
+  .project-card:hover { background: #0d0d0d; border-color: #505050; transform: translateY(-2px); }
+  .card-top, .card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .card-top { margin-bottom: 28px; font-size: 10px; color: #777; letter-spacing: 1px; }
+  .card-arrow { font-size: 20px; color: #aaa; }
+  .project-card p { margin-top: 12px; color: #999; font-size: 14px; line-height: 1.8; max-width: 560px; }
+  .card-bottom { margin-top: 28px; font-size: 12px; }
+  .card-bottom > span:last-child { color: #aaa; }
+  footer a { font-size: 13px; }
   h2 { font-size: 20px; font-weight: 500; letter-spacing: -.5px; }
   .status { color: #747474; font-size: 12px; white-space: nowrap; }
-  article p { max-width: 610px; color: #999; font-size: 15px; }
-  article .note { margin-top: 12px; color: #737373; font-size: 13px; }
-  nav { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 18px; }
   a { color: #d2d2d2; text-decoration: none; transition: color .15s; }
   a:hover { color: #fff; }
   a:focus-visible { outline: 2px solid #fff; outline-offset: 5px; }
-  nav a, footer a { font-size: 13px; }
-  nav a span, footer a span { margin-left: 3px; color: #777; }
   footer { margin-top: 20px; padding-top: 26px; border-top: 1px solid #242424; }
   footer > div { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
-  @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg { animation: none; } }
+  @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-card { padding: 22px; } }
+  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg { animation: none; } }
 </style>

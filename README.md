@@ -1,6 +1,6 @@
 # SpectreOSS website
 
-The minimal black organization website for SpectreOSS, built with Svelte and SvelteKit. It showcases Rabbit R1 and ProjectLibration as separate projects and links to their repositories.
+The minimal black organization website for SpectreOSS, built with Svelte and SvelteKit. It showcases SpectreR1, ProjectLibration, and Shiraz as project cards with dedicated, statically generated pages at `/projects/spectrer1/`, `/projects/projectlibration/`, and `/projects/shiraz/`. Shared project descriptions and links live in `src/lib/projects.ts`.
 
 ## Develop
 

@@ -1,3 +1,9 @@
+0.10.0 — 2026-10-22
+feat: showcase three projects with cards and dedicated pages
+- The home page now presents three projects as cards that link to their own pages.
+- Project details live in a shared catalog and render on a dedicated page for each project slug.
+- Site navigation includes a path to the project pages.
+
 0.9.1 — 2026-10-22
 fix: smoothly scroll explore link to projects
 - The Explore link on the home page now smoothly scrolls to the projects section.
