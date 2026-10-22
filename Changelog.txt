@@ -1,3 +1,7 @@
+0.4.1 — 2026-10-22
+fix: center SpectreOSS name in hero header
+- Center the SpectreOSS name in the hero header.
+
 0.4.0 — 2026-10-22
 feat: illuminate ghost logo lines around pointer on hover
 - The ghost logo now lights up along the lines nearest the pointer when you hover it.
