@@ -1,3 +1,7 @@
+0.5.4 — 2026-10-22
+fix: refine background grid and keep lines behind ghost silhouette
+- The background grid is finer and stays behind the ghost silhouette.
+
 0.5.3 — 2026-10-22
 fix: reduce background grid square size
 - The home page background grid now uses smaller squares.

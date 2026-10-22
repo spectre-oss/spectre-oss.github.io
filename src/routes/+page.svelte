@@ -35,7 +35,7 @@
 
 <main>
   <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
-    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><div class="pointer-light"></div><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><div class="pointer-light"></div><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
     <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
     <div class="hero-copy">
@@ -85,18 +85,19 @@
   .hero-copy { margin: auto 0; padding: 64px 0; }
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
-  .grid { position: absolute; inset: -48px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
+  .grid { position: absolute; inset: -16px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 16px 16px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
   .pointer-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; background: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #d8e6ff0c, transparent 100%); mask-image: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #000 15%, transparent 100%); }
-  .pointer-light::after { content: ''; position: absolute; inset: -48px; background-image: linear-gradient(#d8e6ff38 1px, transparent 1px), linear-gradient(90deg, #d8e6ff38 1px, transparent 1px); background-size: 48px 48px; animation: grid-drift 32s linear infinite; }
+  .pointer-light::after { content: ''; position: absolute; inset: -16px; background-image: linear-gradient(#d8e6ff38 1px, transparent 1px), linear-gradient(90deg, #d8e6ff38 1px, transparent 1px); background-size: 16px 16px; animation: grid-drift 32s linear infinite; }
   .background-lit .pointer-light { opacity: 1; transition-duration: 0s; }
   .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); aspect-ratio: 1; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
   .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
-  .ghost-base { opacity: .055; }
+  .ghost-occlusion { position: absolute; inset: 0; }
+  .ghost-base { position: relative; opacity: .055; }
   .ghost-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; mask-image: radial-gradient(circle 130px at var(--light-x) var(--light-y), #000 0%, #0009 35%, transparent 100%); filter: drop-shadow(0 0 5px #ffffffb3) drop-shadow(0 0 18px #c8dcff80); }
   .lit .ghost-light { opacity: .85; transition-duration: 0s; }
   @keyframes logo-float { from { transform: translate(-54%, -55%) rotate(-9deg); } to { transform: translate(-46%, -45%) rotate(9deg); } }
   @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
-  @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(48px, 48px); } }
+  @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(16px, 16px); } }
   .explore { display: inline-flex; align-items: center; gap: 18px; align-self: flex-start; font-size: 12px; color: #888; }
   .explore svg { color: #bbb; }
   section, footer { width: min(100% - 64px, 696px); margin-left: auto; margin-right: auto; }
