@@ -1,3 +1,7 @@
+0.8.3 — 2026-10-22
+fix: widen mouse glow while keeping cloth deformation small
+- Widens the mouse glow on the page while leaving cloth deformation unchanged.
+
 0.8.2 — 2026-10-22
 fix: extend idle glow across the entire ghost logo
 - The idle glow now covers the whole ghost logo on the home page, including areas that previously stayed dark.

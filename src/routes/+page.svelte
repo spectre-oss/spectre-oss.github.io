@@ -85,7 +85,7 @@
       context.lineWidth = .7;
       context.strokeStyle = 'rgba(255,255,255,.025)';
       context.stroke(path);
-      const glow = context.createRadialGradient(x, y, 0, x, y, backgroundLit ? 32 : 260);
+      const glow = context.createRadialGradient(x, y, 0, x, y, 260);
       glow.addColorStop(0, `rgba(216,230,255,${.06 + pressure * .14})`);
       glow.addColorStop(1, 'rgba(216,230,255,0)');
       context.strokeStyle = glow;
