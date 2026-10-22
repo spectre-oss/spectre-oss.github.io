@@ -1,3 +1,7 @@
+0.10.2 — 2026-10-22
+fix: center project page wordmark and move back link left
+- Project pages now center the wordmark and place the back link on the left.
+
 0.10.1 — 2026-10-22
 fix: replace text arrows with Heroicons SVG icons
 - Replaced text arrows with Heroicons SVG icons on the home page and project pages.

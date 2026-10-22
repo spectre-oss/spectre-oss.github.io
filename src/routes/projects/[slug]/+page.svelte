@@ -33,8 +33,8 @@
 <style>
   .project-page { max-width: 824px; margin: 0 auto; padding: 40px 32px 28px; }
   a { color: #ccc; text-decoration: none; transition: color .15s; } a:hover { color: #fff; }
-  header { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-  .wordmark { font-size: 17px; letter-spacing: -.4px; font-weight: 550; } .back { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
+  header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+  .wordmark { grid-column: 2; grid-row: 1; justify-self: center; font-size: 17px; letter-spacing: -.4px; font-weight: 550; } .back { grid-column: 1; grid-row: 1; justify-self: start; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
   main { margin-top: clamp(72px, 14vh, 150px); }
   .eyebrow { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 10px; letter-spacing: 1.2px; color: #858585; }
   .status { letter-spacing: 0; } .status span { color: #ccc; padding-right: 4px; }
