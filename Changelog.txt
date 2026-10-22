@@ -1,3 +1,7 @@
+0.9.1 — 2026-10-22
+fix: smoothly scroll explore link to projects
+- The Explore link on the home page now smoothly scrolls to the projects section.
+
 0.9.0 — 2026-10-22
 feat: brighten pointer glow and add click ripples to mesh
 - Pointer glow on the mesh is brighter.

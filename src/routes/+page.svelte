@@ -176,7 +176,7 @@
 
 <style>
   :global(*) { box-sizing: border-box; }
-  :global(html) { background: #000; color-scheme: dark; }
+  :global(html) { background: #000; color-scheme: dark; scroll-behavior: smooth; }
   :global(body) { margin: 0; background: #000; color: #e8e8e8; font-family: system-ui, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.7; }
   main { overflow: clip; }
   .hero { position: relative; isolation: isolate; min-height: 100vh; min-height: 100svh; display: flex; }
@@ -207,6 +207,7 @@
   .intro { color: #f2f2f2; font-size: clamp(32px, 6vw, 46px); font-weight: 450; letter-spacing: -1.7px; line-height: 1.2; }
   .description { max-width: 520px; margin-top: 24px; color: #999; font-size: 16px; }
   section { margin-top: 68px; }
+  #projects { scroll-margin-top: 40px; }
   h1 { padding-bottom: 18px; color: #777; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; }
   article { padding: 30px 0 34px; border-top: 1px solid #242424; }
   .project-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
@@ -225,5 +226,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { a, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg { animation: none; } }
 </style>
