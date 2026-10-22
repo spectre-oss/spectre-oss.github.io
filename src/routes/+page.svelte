@@ -1,3 +1,7 @@
+<script module lang="ts">
+  let introPlayed = false;
+</script>
+
 <script lang="ts">
   import HeroIcon from '#lib/HeroIcon.svelte';
   import { projects } from '#lib/projects.js';
@@ -6,6 +10,7 @@
   const ghostMarkup = ghostSource.replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
   let logo: HTMLDivElement;
   let hero: HTMLElement;
+  let intro = $state(true);
   let scrollY = $state(0);
   let meshCanvas: HTMLCanvasElement;
   let ripples: { x: number; y: number; start: number }[] = [];
@@ -35,6 +40,13 @@
     lit = lightX >= 0 && lightX <= 100 && lightY >= 0 && lightY <= 100;
   }
   import { version } from '../../package.json';
+
+  onMount(() => {
+    if (introPlayed || matchMedia('(prefers-reduced-motion: reduce)').matches) intro = false;
+    introPlayed = true;
+    const finishIntro = setTimeout(() => intro = false, 1700);
+    return () => clearTimeout(finishIntro);
+  });
 
   onMount(() => {
     const context = meshCanvas.getContext('2d');
@@ -135,7 +147,9 @@
 
 <svelte:window bind:scrollY onclick={ripple} onpointermove={illuminate} onblur={clearLight} onpointerout={(event) => { if (!event.relatedTarget) clearLight(); }} />
 
-<a class="identity" class:scrolled={scrollY > 24} href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
+{#if intro}<div class="intro-cover" aria-hidden="true"></div>{/if}
+
+<a class="identity" class:intro class:scrolled={scrollY > 24} href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
 
 <main>
   <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
@@ -195,7 +209,15 @@
   @keyframes chevron-bounce { 0%, 55%, 100% { transform: translateY(-1px); animation-timing-function: cubic-bezier(.2,.8,.2,1); } 22% { transform: translateY(4px); animation-timing-function: cubic-bezier(.16,1,.3,1); } 40% { transform: translateY(-2px); } }
   section, footer { width: min(100% - 64px, 696px); margin-left: auto; margin-right: auto; }
   footer { margin-bottom: 32px; }
-  .identity { position: fixed; z-index: 50; top: 24px; left: 50%; transform: translateX(-50%); min-height: 44px; padding: 8px 16px; border: 1px solid transparent; border-radius: 999px; background: transparent; transition: background .2s, border-color .2s, box-shadow .2s; align-self: center; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
+  .identity { --identity-top: 24px; position: fixed; z-index: 70; top: var(--identity-top); left: 50%; transform: translateX(-50%); min-height: 44px; padding: 8px 16px; border: 1px solid transparent; border-radius: 999px; background: transparent; transition: background .2s, border-color .2s, box-shadow .2s; align-self: center; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
+  .intro-cover { position: fixed; inset: 0; z-index: 60; background: #000; pointer-events: none; animation: reveal-page 1.65s both; }
+  .identity.intro { animation: introduce-wordmark 1.5s cubic-bezier(.76,0,.24,1) both; }
+  @keyframes introduce-wordmark {
+    0% { top: 50svh; transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+    18%, 42% { top: 50svh; transform: translate(-50%, -50%) scale(2.2); opacity: 1; }
+    100% { top: var(--identity-top); transform: translateX(-50%) scale(1); opacity: 1; }
+  }
+  @keyframes reveal-page { 0%, 55% { opacity: 1; } 100% { opacity: 0; } }
   .identity.scrolled { background: rgba(18,18,18,.88); border-color: #ffffff24; backdrop-filter: blur(16px); box-shadow: 0 4px 20px #0005; }
   .identity.scrolled:hover { background: #222; border-color: #ffffff40; }
   p, h1, h2 { margin: 0; }
@@ -223,6 +245,6 @@
   footer > div { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
-  @media (max-width: 480px) { .identity { top: 16px; } .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-card { padding: 22px; } }
-  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg { animation: none; } }
+  @media (max-width: 480px) { .identity { --identity-top: 16px; } .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-card { padding: 22px; } }
+  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg, .identity.intro { animation: none; } .intro-cover { display: none; } }
 </style>

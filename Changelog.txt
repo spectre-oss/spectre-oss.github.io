@@ -1,3 +1,7 @@
+0.13.0 — 2026-10-22
+feat: introduce SpectreOSS centered on black before moving to header
+- The homepage now opens on black with SpectreOSS centered, then moves it into the header.
+
 0.12.0 — 2026-10-22
 feat: add fixed scroll pill to homepage wordmark
 - The homepage wordmark now stays in a fixed pill as you scroll.
