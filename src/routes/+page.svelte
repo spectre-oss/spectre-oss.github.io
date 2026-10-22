@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import ghostSource from '#lib/assets/favicon.svg?raw';
   const ghostMarkup = ghostSource.replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
   let logo: HTMLDivElement;
   let hero: HTMLElement;
+  let meshCanvas: HTMLCanvasElement;
   let pointerX = $state(0);
   let pointerY = $state(0);
   let backgroundLit = $state(false);
@@ -23,6 +25,77 @@
     lit = lightX >= 0 && lightX <= 100 && lightY >= 0 && lightY <= 100;
   }
   import { version } from '../../package.json';
+
+  onMount(() => {
+    const context = meshCanvas.getContext('2d');
+    if (!context) return;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    let width = 0, height = 0, columns = 0, rows = 0;
+    let points: { x: number; y: number; dx: number; dy: number; vx: number; vy: number }[] = [];
+    let x = 0, y = 0, pressure = 0, frame = 0, last = 0;
+    const resize = new ResizeObserver(() => {
+      const bounds = hero.getBoundingClientRect();
+      width = bounds.width; height = bounds.height;
+      const ratio = Math.min(devicePixelRatio || 1, 2);
+      meshCanvas.width = Math.round(width * ratio);
+      meshCanvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      columns = Math.ceil(width / 16) + 3; rows = Math.ceil(height / 16) + 3;
+      points = Array.from({ length: columns * rows }, (_, i) => ({
+        x: (i % columns - 1) * 16, y: (Math.floor(i / columns) - 1) * 16,
+        dx: 0, dy: 0, vx: 0, vy: 0
+      }));
+      x = width * .7; y = height * .72;
+    });
+    resize.observe(hero);
+    function draw(now: number) {
+      if (!context) return;
+      const dt = Math.min((now - (last || now)) / 16.667, 2);
+      last = now;
+      const ease = 1 - Math.pow(.94, dt);
+      x += ((backgroundLit ? pointerX : width * .7) - x) * ease;
+      y += ((backgroundLit ? pointerY : height * .72) - y) * ease;
+      pressure += ((backgroundLit ? 1 : 0) - pressure) * (1 - Math.pow(.96, dt));
+      context.clearRect(0, 0, width, height);
+      for (const point of points) {
+        const ox = x - point.x, oy = y - point.y;
+        const weight = Math.exp(-(ox * ox + oy * oy) / (155 * 155));
+        const amount = reducedMotion.matches ? 0 : weight * pressure;
+        const targetX = ox * .22 * amount;
+        const targetY = (oy * .22 + 28) * amount;
+        point.vx = (point.vx + (targetX - point.dx) * .025 * dt) * Math.pow(.84, dt);
+        point.vy = (point.vy + (targetY - point.dy) * .025 * dt) * Math.pow(.84, dt);
+        point.dx += point.vx * dt; point.dy += point.vy * dt;
+      }
+      const path = new Path2D();
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < columns; col++) {
+          const p = points[row * columns + col];
+          if (!col) path.moveTo(p.x + p.dx, p.y + p.dy);
+          else path.lineTo(p.x + p.dx, p.y + p.dy);
+        }
+      }
+      for (let col = 0; col < columns; col++) {
+        for (let row = 0; row < rows; row++) {
+          const p = points[row * columns + col];
+          if (!row) path.moveTo(p.x + p.dx, p.y + p.dy);
+          else path.lineTo(p.x + p.dx, p.y + p.dy);
+        }
+      }
+      context.lineWidth = .7;
+      context.strokeStyle = 'rgba(255,255,255,.025)';
+      context.stroke(path);
+      const glow = context.createRadialGradient(x, y, 0, x, y, 260);
+      glow.addColorStop(0, `rgba(216,230,255,${.06 + pressure * .14})`);
+      glow.addColorStop(1, 'rgba(216,230,255,0)');
+      context.strokeStyle = glow;
+      context.stroke(path);
+      frame = requestAnimationFrame(draw);
+    }
+    frame = requestAnimationFrame(draw);
+    return () => { resize.disconnect(); cancelAnimationFrame(frame); };
+  });
+
 </script>
 
 <svelte:head>
@@ -35,7 +108,7 @@
 
 <main>
   <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
-    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><div class="grid"></div><div class="pointer-light"></div><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><canvas class="cloth-grid" bind:this={meshCanvas}></canvas><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
     <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
     <div class="hero-copy">
@@ -85,12 +158,9 @@
   .hero-copy { margin: auto 0; padding: 64px 0; }
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
-  .grid { position: absolute; inset: -16px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 16px 16px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
+  .cloth-grid { position: absolute; inset: 0; width: 100%; height: 100%; }
   .idle-glow { position: absolute; left: 70%; top: calc(50% + clamp(85px, 14vw, 210px)); width: clamp(260px, 35vw, 520px); height: clamp(100px, 12vw, 180px); transform: translate(-50%, -50%); background: radial-gradient(ellipse, #d8e6ff18 0%, #d8e6ff07 38%, transparent 72%); opacity: 1; transition: opacity .6s ease; }
   .background-lit .idle-glow { opacity: 0; }
-  .pointer-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; background: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #d8e6ff0c, transparent 100%); mask-image: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #000 15%, transparent 100%); }
-  .pointer-light::after { content: ''; position: absolute; inset: -16px; background-image: linear-gradient(#d8e6ff38 1px, transparent 1px), linear-gradient(90deg, #d8e6ff38 1px, transparent 1px); background-size: 16px 16px; animation: grid-drift 32s linear infinite; }
-  .background-lit .pointer-light { opacity: 1; transition-duration: 0s; }
   .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); aspect-ratio: 1; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
   .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
   .ghost-occlusion { position: absolute; inset: 0; }
@@ -99,7 +169,6 @@
   .lit .ghost-light { opacity: .85; transition-duration: 0s; }
   @keyframes logo-float { from { transform: translate(-54%, -55%) rotate(-9deg); } to { transform: translate(-46%, -45%) rotate(9deg); } }
   @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
-  @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(16px, 16px); } }
   .explore { display: inline-flex; align-items: center; gap: 18px; align-self: flex-start; font-size: 12px; color: #888; }
   .explore span { display: block; line-height: 1; }
   .explore svg { display: block; flex-shrink: 0; color: #bbb; transform: translateY(-1px); }
@@ -128,5 +197,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { a, .ghost-light, .pointer-light, .idle-glow { transition: none; } .halo, .grid, .background-logo, .pointer-light::after { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { a, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo { animation: none; } }
 </style>

@@ -1,3 +1,8 @@
+0.7.0 — 2026-10-22
+feat: deform background mesh with delayed cloth motion
+- The background mesh now deforms with a delayed cloth-like motion.
+- The page scene updates how that mesh follows movement over time.
+
 0.6.0 — 2026-10-22
 feat: show soft glow below ghost when pointer is idle
 - A soft glow now appears under the ghost when the pointer stays idle.
