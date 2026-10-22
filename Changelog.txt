@@ -1,3 +1,7 @@
+0.6.0 — 2026-10-22
+feat: show soft glow below ghost when pointer is idle
+- A soft glow now appears under the ghost when the pointer stays idle.
+
 0.5.5 — 2026-10-22
 fix: vertically align explore link chevron with label
 - Align the explore link chevron vertically with its label on the home page.

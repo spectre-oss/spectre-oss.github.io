@@ -35,7 +35,7 @@
 
 <main>
   <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
-    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><div class="pointer-light"></div><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><div class="grid"></div><div class="pointer-light"></div><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
     <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
     <div class="hero-copy">
@@ -86,6 +86,8 @@
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
   .grid { position: absolute; inset: -16px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 16px 16px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
+  .idle-glow { position: absolute; left: 70%; top: calc(50% + clamp(85px, 14vw, 210px)); width: clamp(260px, 35vw, 520px); height: clamp(100px, 12vw, 180px); transform: translate(-50%, -50%); background: radial-gradient(ellipse, #d8e6ff18 0%, #d8e6ff07 38%, transparent 72%); opacity: 1; transition: opacity .6s ease; }
+  .background-lit .idle-glow { opacity: 0; }
   .pointer-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; background: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #d8e6ff0c, transparent 100%); mask-image: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #000 15%, transparent 100%); }
   .pointer-light::after { content: ''; position: absolute; inset: -16px; background-image: linear-gradient(#d8e6ff38 1px, transparent 1px), linear-gradient(90deg, #d8e6ff38 1px, transparent 1px); background-size: 16px 16px; animation: grid-drift 32s linear infinite; }
   .background-lit .pointer-light { opacity: 1; transition-duration: 0s; }
@@ -126,5 +128,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { a, .ghost-light, .pointer-light { transition: none; } .halo, .grid, .background-logo, .pointer-light::after { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { a, .ghost-light, .pointer-light, .idle-glow { transition: none; } .halo, .grid, .background-logo, .pointer-light::after { animation: none; } }
 </style>
