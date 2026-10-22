@@ -10,10 +10,16 @@
 </svelte:head>
 
 <main>
-  <header>
+  <header class="hero">
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div></div>
+    <div class="hero-inner">
     <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><img src={ghost} alt="" width="38" height="38" /><span>SpectreOSS</span></a>
+    <div class="hero-copy">
     <p class="intro">Open software.<br />Hardware on your terms.</p>
     <p class="description">We explore hardware, build independent Linux systems, and share the tools to make existing devices your own.</p>
+    </div>
+    <a class="explore" href="#projects">Explore our projects <span aria-hidden="true">↓</span></a>
+    </div>
   </header>
 
   <section aria-labelledby="projects">
@@ -49,11 +55,23 @@
   :global(*) { box-sizing: border-box; }
   :global(html) { background: #000; color-scheme: dark; }
   :global(body) { margin: 0; background: #000; color: #e8e8e8; font-family: system-ui, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.7; }
-  main { width: min(100%, 760px); margin: 0 auto; padding: 64px 32px 32px; }
-  .identity { display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
+  main { overflow: clip; }
+  .hero { position: relative; isolation: isolate; min-height: 100vh; min-height: 100svh; display: flex; }
+  .hero-inner { position: relative; width: min(100%, 760px); margin: 0 auto; padding: 48px 32px 40px; display: flex; flex-direction: column; }
+  .hero-copy { margin: auto 0; padding: 64px 0; }
+  .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
+  .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
+  .grid { position: absolute; inset: -96px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 96px 96px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
+  @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
+  @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(96px, 96px); } }
+  .explore { display: inline-flex; align-items: center; gap: 18px; align-self: flex-start; font-size: 12px; color: #888; }
+  .explore span { color: #bbb; }
+  section, footer { width: min(100% - 64px, 696px); margin-left: auto; margin-right: auto; }
+  footer { margin-bottom: 32px; }
+  .identity { align-self: flex-start; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
   .identity img { display: block; border-radius: 50%; }
   p, h1, h2 { margin: 0; }
-  .intro { margin-top: 68px; color: #f2f2f2; font-size: clamp(32px, 6vw, 46px); font-weight: 450; letter-spacing: -1.7px; line-height: 1.2; }
+  .intro { color: #f2f2f2; font-size: clamp(32px, 6vw, 46px); font-weight: 450; letter-spacing: -1.7px; line-height: 1.2; }
   .description { max-width: 520px; margin-top: 24px; color: #999; font-size: 16px; }
   section { margin-top: 68px; }
   h1 { padding-bottom: 18px; color: #777; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; }
@@ -73,6 +91,6 @@
   footer > div { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
-  @media (max-width: 480px) { main { padding: 32px 24px 24px; } .intro { margin-top: 48px; } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { a { transition: none; } }
+  @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
+  @media (prefers-reduced-motion: reduce) { a { transition: none; } .halo, .grid { animation: none; } }
 </style>

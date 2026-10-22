@@ -1,3 +1,7 @@
+0.2.0 — 2026-10-22
+feat: add full viewport hero with subtle animated background
+- The home page hero now fills the viewport and shows a subtle animated background.
+
 0.1.2 — 2026-10-22
 fix: restore minimal SpectreOSS organization project showcase
 - Restored the minimal SpectreOSS organization project showcase on the home page.
