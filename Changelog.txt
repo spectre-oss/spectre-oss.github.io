@@ -1,3 +1,8 @@
+0.11.0 — 2026-10-22
+feat: keep project navigation fixed with scroll activated pills
+- Project pages keep the section navigation fixed while you scroll.
+- Navigation pills update to match the section currently in view.
+
 0.10.3 — 2026-10-22
 fix: position project back link at page top left
 - The project page back link now sits at the top left.
