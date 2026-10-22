@@ -85,9 +85,9 @@
   .hero-copy { margin: auto 0; padding: 64px 0; }
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
-  .grid { position: absolute; inset: -96px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 96px 96px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
+  .grid { position: absolute; inset: -48px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
   .pointer-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; background: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #d8e6ff0c, transparent 100%); mask-image: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #000 15%, transparent 100%); }
-  .pointer-light::after { content: ''; position: absolute; inset: -96px; background-image: linear-gradient(#d8e6ff38 1px, transparent 1px), linear-gradient(90deg, #d8e6ff38 1px, transparent 1px); background-size: 96px 96px; animation: grid-drift 32s linear infinite; }
+  .pointer-light::after { content: ''; position: absolute; inset: -48px; background-image: linear-gradient(#d8e6ff38 1px, transparent 1px), linear-gradient(90deg, #d8e6ff38 1px, transparent 1px); background-size: 48px 48px; animation: grid-drift 32s linear infinite; }
   .background-lit .pointer-light { opacity: 1; transition-duration: 0s; }
   .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); aspect-ratio: 1; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
   .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
@@ -96,7 +96,7 @@
   .lit .ghost-light { opacity: .85; transition-duration: 0s; }
   @keyframes logo-float { from { transform: translate(-54%, -55%) rotate(-9deg); } to { transform: translate(-46%, -45%) rotate(9deg); } }
   @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
-  @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(96px, 96px); } }
+  @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(48px, 48px); } }
   .explore { display: inline-flex; align-items: center; gap: 18px; align-self: flex-start; font-size: 12px; color: #888; }
   .explore svg { color: #bbb; }
   section, footer { width: min(100% - 64px, 696px); margin-left: auto; margin-right: auto; }

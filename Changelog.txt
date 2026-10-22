@@ -1,3 +1,7 @@
+0.5.3 — 2026-10-22
+fix: reduce background grid square size
+- The home page background grid now uses smaller squares.
+
 0.5.2 — 2026-10-22
 fix: use SVG chevron for explore projects link
 - The Explore projects link on the home page now uses an SVG chevron.
