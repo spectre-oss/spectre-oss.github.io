@@ -5,6 +5,13 @@
   let logo: HTMLDivElement;
   let hero: HTMLElement;
   let meshCanvas: HTMLCanvasElement;
+  let ripples: { x: number; y: number; start: number }[] = [];
+  function ripple(event: MouseEvent) {
+    const bounds = hero.getBoundingClientRect();
+    const x = event.clientX - bounds.left, y = event.clientY - bounds.top;
+    if (x < 0 || x > bounds.width || y < 0 || y > bounds.height) return;
+    ripples = [...ripples.slice(-5), { x, y, start: performance.now() }];
+  }
   let pointerX = $state(0);
   let pointerY = $state(0);
   let backgroundLit = $state(false);
@@ -57,12 +64,21 @@
       y += ((backgroundLit ? pointerY : height * .72) - y) * ease;
       pressure += ((backgroundLit ? 1 : 0) - pressure) * (1 - Math.pow(.96, dt));
       context.clearRect(0, 0, width, height);
+      ripples = ripples.filter(r => now - r.start < 850);
       for (const point of points) {
         const ox = x - point.x, oy = y - point.y;
         const weight = Math.exp(-(ox * ox + oy * oy) / (18 * 18));
         const amount = reducedMotion.matches ? 0 : weight * pressure;
         const targetX = ox * .22 * amount;
-        const targetY = (oy * .22 + 6) * amount;
+        let targetY = (oy * .22 + 6) * amount;
+        if (!reducedMotion.matches) {
+          for (const r of ripples) {
+            const age = (now - r.start) / 850;
+            const distance = Math.hypot(point.x - r.x, point.y - r.y);
+            const wave = (distance - age * 220) / 22;
+            targetY += Math.exp(-wave * wave) * Math.sin(age * Math.PI) * 14 * (1 - age);
+          }
+        }
         point.vx = (point.vx + (targetX - point.dx) * .025 * dt) * Math.pow(.84, dt);
         point.vy = (point.vy + (targetY - point.dy) * .025 * dt) * Math.pow(.84, dt);
         point.dx += point.vx * dt; point.dy += point.vy * dt;
@@ -86,10 +102,20 @@
       context.strokeStyle = 'rgba(255,255,255,.025)';
       context.stroke(path);
       const glow = context.createRadialGradient(x, y, 0, x, y, 260);
-      glow.addColorStop(0, `rgba(216,230,255,${.06 + pressure * .14})`);
+      glow.addColorStop(0, `rgba(216,230,255,${.09 + pressure * .22})`);
       glow.addColorStop(1, 'rgba(216,230,255,0)');
       context.strokeStyle = glow;
       context.stroke(path);
+      if (!reducedMotion.matches) {
+        for (const r of ripples) {
+          const age = (now - r.start) / 850;
+          context.beginPath();
+          context.arc(r.x, r.y, Math.max(1, age * 220), 0, Math.PI * 2);
+          context.strokeStyle = `rgba(216,230,255,${.28 * (1 - age) ** 2})`;
+          context.lineWidth = 1;
+          context.stroke();
+        }
+      }
       frame = requestAnimationFrame(draw);
     }
     frame = requestAnimationFrame(draw);
@@ -104,7 +130,7 @@
   <meta name="theme-color" content="#000000" />
 </svelte:head>
 
-<svelte:window onpointermove={illuminate} onblur={clearLight} onpointerout={(event) => { if (!event.relatedTarget) clearLight(); }} />
+<svelte:window onclick={ripple} onpointermove={illuminate} onblur={clearLight} onpointerout={(event) => { if (!event.relatedTarget) clearLight(); }} />
 
 <main>
   <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>

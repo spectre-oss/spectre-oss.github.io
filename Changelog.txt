@@ -1,3 +1,8 @@
+0.9.0 — 2026-10-22
+feat: brighten pointer glow and add click ripples to mesh
+- Pointer glow on the mesh is brighter.
+- Clicks on the mesh now show ripples.
+
 0.8.3 — 2026-10-22
 fix: widen mouse glow while keeping cloth deformation small
 - Widens the mouse glow on the page while leaving cloth deformation unchanged.
