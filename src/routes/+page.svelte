@@ -6,6 +6,7 @@
   import HeroIcon from '#lib/HeroIcon.svelte';
   import { projects } from '#lib/projects.js';
   import { onMount } from 'svelte';
+  import { afterNavigate } from '$app/navigation';
   import ghostSource from '#lib/assets/favicon.svg?raw';
   const ghostMarkup = ghostSource.replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
   let logo: HTMLDivElement;
@@ -41,8 +42,12 @@
   }
   import { version } from '../../package.json';
 
+  afterNavigate(({ type }) => {
+    if (type !== 'enter') intro = false;
+  });
+
   onMount(() => {
-    if (introPlayed || matchMedia('(prefers-reduced-motion: reduce)').matches) intro = false;
+    if (window.location.hash || introPlayed || matchMedia('(prefers-reduced-motion: reduce)').matches) intro = false;
     introPlayed = true;
     const finishIntro = setTimeout(() => intro = false, 1700);
     return () => clearTimeout(finishIntro);
