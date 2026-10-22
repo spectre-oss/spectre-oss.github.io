@@ -1,3 +1,7 @@
+0.5.5 — 2026-10-22
+fix: vertically align explore link chevron with label
+- Align the explore link chevron vertically with its label on the home page.
+
 0.5.4 — 2026-10-22
 fix: refine background grid and keep lines behind ghost silhouette
 - The background grid is finer and stays behind the ghost silhouette.
