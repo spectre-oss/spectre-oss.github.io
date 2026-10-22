@@ -1,5 +1,18 @@
 <script lang="ts">
-  import ghost from '#lib/assets/favicon.svg';
+  import ghostSource from '#lib/assets/favicon.svg?raw';
+  const ghostMarkup = ghostSource.replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
+  let logo: HTMLDivElement;
+  let lightX = $state(50);
+  let lightY = $state(50);
+  let lit = $state(false);
+
+  function illuminate(event: PointerEvent) {
+    if (event.pointerType === 'touch') return;
+    const bounds = logo.getBoundingClientRect();
+    lightX = (event.clientX - bounds.left) / bounds.width * 100;
+    lightY = (event.clientY - bounds.top) / bounds.height * 100;
+    lit = lightX >= 0 && lightX <= 100 && lightY >= 0 && lightY <= 100;
+  }
   import { version } from '../../package.json';
 </script>
 
@@ -9,9 +22,11 @@
   <meta name="theme-color" content="#000000" />
 </svelte:head>
 
+<svelte:window onpointermove={illuminate} onblur={() => lit = false} />
+
 <main>
   <header class="hero">
-    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><img class="background-logo" src={ghost} alt="" /></div>
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
     <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
     <div class="hero-copy">
@@ -62,7 +77,11 @@
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
   .grid { position: absolute; inset: -96px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 96px 96px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
-  .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); height: auto; opacity: .055; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
+  .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); aspect-ratio: 1; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
+  .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
+  .ghost-base { opacity: .055; }
+  .ghost-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; mask-image: radial-gradient(circle 130px at var(--light-x) var(--light-y), #000 0%, #0009 35%, transparent 100%); filter: drop-shadow(0 0 5px #ffffffb3) drop-shadow(0 0 18px #c8dcff80); }
+  .lit .ghost-light { opacity: .85; transition-duration: .25s; }
   @keyframes logo-float { from { transform: translate(-54%, -55%) rotate(-9deg); } to { transform: translate(-46%, -45%) rotate(9deg); } }
   @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
   @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(96px, 96px); } }
@@ -93,5 +112,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { a { transition: none; } .halo, .grid, .background-logo { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { a, .ghost-light { transition: none; } .halo, .grid, .background-logo { animation: none; } }
 </style>
