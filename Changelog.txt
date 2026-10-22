@@ -1,3 +1,7 @@
+0.8.0 — 2026-10-22
+feat: add snappy bounce to explore chevron
+- The explore chevron now bounces with a snappier motion on the home page.
+
 0.7.1 — 2026-10-22
 fix: illuminate lower ghost outline without hovering
 - The lower ghost outline now lights up on its own, without needing a hover.

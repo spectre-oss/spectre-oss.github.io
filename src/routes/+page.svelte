@@ -171,7 +171,9 @@
   @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
   .explore { display: inline-flex; align-items: center; gap: 18px; align-self: flex-start; font-size: 12px; color: #888; }
   .explore span { display: block; line-height: 1; }
-  .explore svg { display: block; flex-shrink: 0; color: #bbb; transform: translateY(-1px); }
+  .explore svg { display: block; flex-shrink: 0; color: #bbb; transform: translateY(-1px); animation: chevron-bounce 1.1s infinite; }
+  .explore:hover svg, .explore:focus-visible svg { animation-duration: .48s; }
+  @keyframes chevron-bounce { 0%, 55%, 100% { transform: translateY(-1px); animation-timing-function: cubic-bezier(.2,.8,.2,1); } 22% { transform: translateY(4px); animation-timing-function: cubic-bezier(.16,1,.3,1); } 40% { transform: translateY(-2px); } }
   section, footer { width: min(100% - 64px, 696px); margin-left: auto; margin-right: auto; }
   footer { margin-bottom: 32px; }
   .identity { align-self: center; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
@@ -197,5 +199,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { a, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { a, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg { animation: none; } }
 </style>
