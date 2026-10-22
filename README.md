@@ -1,6 +1,6 @@
-# ProjectLibration website
+# SpectreOSS website
 
-The Spectre OSS landing page for ProjectLibration, built with Svelte and SvelteKit. It introduces the Linux-host mobile Linux workflow and provides a downloadable starter system prompt.
+The minimal black organization website for SpectreOSS, built with Svelte and SvelteKit. It showcases Rabbit R1 and ProjectLibration as separate projects and links to their repositories.
 
 ## Develop
 
@@ -27,4 +27,4 @@ Run `sh tools/install-hooks.sh` after cloning. The hooks validate Conventional C
 
 The static adapter writes to `build/`. Existing GitHub Actions deploy pushes to `main` through GitHub Pages. Local commits do not publish the site.
 
-The landing artwork uses the remote video and poster supplied in the design brief. Fonts load from Google Fonts. The original Spectre ghost artwork remains in `src/lib/assets/favicon.svg`.
+The site uses system fonts and the local Spectre ghost artwork in `src/lib/assets/favicon.svg`.
