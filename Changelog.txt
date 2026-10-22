@@ -1,3 +1,8 @@
+0.5.0 — 2026-10-22
+feat: extend pointer glow across hero background grid
+- The pointer glow on the home page now extends across the hero background grid.
+- The effect follows the cursor over the full grid, so highlights stay continuous as you move.
+
 0.4.1 — 2026-10-22
 fix: center SpectreOSS name in hero header
 - Center the SpectreOSS name in the hero header.

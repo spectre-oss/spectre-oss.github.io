@@ -2,12 +2,21 @@
   import ghostSource from '#lib/assets/favicon.svg?raw';
   const ghostMarkup = ghostSource.replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
   let logo: HTMLDivElement;
+  let hero: HTMLElement;
+  let pointerX = $state(0);
+  let pointerY = $state(0);
+  let backgroundLit = $state(false);
+  function clearLight() { lit = false; backgroundLit = false; }
   let lightX = $state(50);
   let lightY = $state(50);
   let lit = $state(false);
 
   function illuminate(event: PointerEvent) {
     if (event.pointerType === 'touch') return;
+    const heroBounds = hero.getBoundingClientRect();
+    pointerX = event.clientX - heroBounds.left;
+    pointerY = event.clientY - heroBounds.top;
+    backgroundLit = pointerX >= 0 && pointerX <= heroBounds.width && pointerY >= 0 && pointerY <= heroBounds.height;
     const bounds = logo.getBoundingClientRect();
     lightX = (event.clientX - bounds.left) / bounds.width * 100;
     lightY = (event.clientY - bounds.top) / bounds.height * 100;
@@ -22,11 +31,11 @@
   <meta name="theme-color" content="#000000" />
 </svelte:head>
 
-<svelte:window onpointermove={illuminate} onblur={() => lit = false} />
+<svelte:window onpointermove={illuminate} onblur={clearLight} onpointerout={(event) => { if (!event.relatedTarget) clearLight(); }} />
 
 <main>
-  <header class="hero">
-    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
+  <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><div class="pointer-light"></div><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
     <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
     <div class="hero-copy">
@@ -77,6 +86,9 @@
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
   .grid { position: absolute; inset: -96px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 96px 96px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
+  .pointer-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; background: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #d8e6ff0c, transparent 100%); mask-image: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #000 15%, transparent 100%); }
+  .pointer-light::after { content: ''; position: absolute; inset: -96px; background-image: linear-gradient(#d8e6ff38 1px, transparent 1px), linear-gradient(90deg, #d8e6ff38 1px, transparent 1px); background-size: 96px 96px; animation: grid-drift 32s linear infinite; }
+  .background-lit .pointer-light { opacity: 1; transition-duration: .25s; }
   .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); aspect-ratio: 1; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
   .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
   .ghost-base { opacity: .055; }
@@ -112,5 +124,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-heading { flex-wrap: wrap; gap: 4px 16px; } }
-  @media (prefers-reduced-motion: reduce) { a, .ghost-light { transition: none; } .halo, .grid, .background-logo { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { a, .ghost-light, .pointer-light { transition: none; } .halo, .grid, .background-logo, .pointer-light::after { animation: none; } }
 </style>
