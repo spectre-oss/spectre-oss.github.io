@@ -1,4 +1,8 @@
 0.10.0 — 2026-10-22
+docs: clarify SpectreOSS independence from all organizations
+- Clarifies that SpectreOSS is independent of all organizations on the home page.
+
+0.10.0 — 2026-10-22
 feat: showcase three projects with cards and dedicated pages
 - The home page now presents three projects as cards that link to their own pages.
 - Project details live in a shared catalog and render on a dedicated page for each project slug.

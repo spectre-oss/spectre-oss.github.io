@@ -162,7 +162,7 @@
 
   <footer>
     <div><a href="https://github.com/spectre-oss">GitHub <span aria-hidden="true">↗</span></a><span class="version">Website v{version}</span></div>
-    <p>Independent community projects. Not affiliated with Rabbit Inc.</p>
+    <p>Independent community projects. Not affiliated with any company or organization.</p>
   </footer>
 </main>
 
