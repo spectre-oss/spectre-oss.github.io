@@ -1,3 +1,7 @@
+0.8.2 — 2026-10-22
+fix: extend idle glow across the entire ghost logo
+- The idle glow now covers the whole ghost logo on the home page, including areas that previously stayed dark.
+
 0.8.1 — 2026-10-22
 fix: shrink cloth interaction to cursor sized area
 - Cloth interaction now responds only in a cursor-sized area.

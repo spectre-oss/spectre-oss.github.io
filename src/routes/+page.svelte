@@ -164,7 +164,7 @@
   .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
   .ghost-occlusion { position: absolute; inset: 0; }
   .ghost-base { position: relative; opacity: .055; }
-  .ghost-idle { position: absolute; inset: 0; opacity: .45; mask-image: radial-gradient(ellipse 48% 32% at 50% 78%, #000 15%, #0009 50%, transparent 100%); filter: drop-shadow(0 0 5px #d8e6ffb3) drop-shadow(0 0 18px #c8dcff80); }
+  .ghost-idle { position: absolute; inset: 0; opacity: .45; filter: drop-shadow(0 0 5px #d8e6ffb3) drop-shadow(0 0 18px #c8dcff80); }
   .ghost-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; mask-image: radial-gradient(circle 130px at var(--light-x) var(--light-y), #000 0%, #0009 35%, transparent 100%); filter: drop-shadow(0 0 5px #ffffffb3) drop-shadow(0 0 18px #c8dcff80); }
   .lit .ghost-light { opacity: .85; transition-duration: 0s; }
   @keyframes logo-float { from { transform: translate(-54%, -55%) rotate(-9deg); } to { transform: translate(-46%, -45%) rotate(9deg); } }
