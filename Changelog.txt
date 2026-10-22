@@ -1,3 +1,8 @@
+0.10.1 — 2026-10-22
+fix: replace text arrows with Heroicons SVG icons
+- Replaced text arrows with Heroicons SVG icons on the home page and project pages.
+- Added a small HeroIcon component and the Heroicons license notice.
+
 0.10.0 — 2026-10-22
 docs: clarify SpectreOSS independence from all organizations
 - Clarifies that SpectreOSS is independent of all organizations on the home page.

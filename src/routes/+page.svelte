@@ -1,4 +1,5 @@
 <script lang="ts">
+  import HeroIcon from '#lib/HeroIcon.svelte';
   import { projects } from '#lib/projects.js';
   import { onMount } from 'svelte';
   import ghostSource from '#lib/assets/favicon.svg?raw';
@@ -151,17 +152,17 @@
     <div class="project-cards">
       {#each projects as project}
         <a class="project-card" href={'/projects/' + project.slug + '/'}>
-          <div class="card-top"><span>{project.number} / {project.category}</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span>{project.number} / {project.category}</span><span class="card-arrow"><HeroIcon name="arrow-up-right" size={20} /></span></div>
           <h2>{project.name}</h2>
           <p>{project.summary}</p>
-          <div class="card-bottom"><span class="status">{project.status}</span><span>View project <span aria-hidden="true">→</span></span></div>
+          <div class="card-bottom"><span class="status">{project.status}</span><span>View project <HeroIcon name="arrow-right" /></span></div>
         </a>
       {/each}
     </div>
   </section>
 
   <footer>
-    <div><a href="https://github.com/spectre-oss">GitHub <span aria-hidden="true">↗</span></a><span class="version">Website v{version}</span></div>
+    <div><a href="https://github.com/spectre-oss">GitHub <HeroIcon name="arrow-up-right" /></a><span class="version">Website v{version}</span></div>
     <p>Independent community projects. Not affiliated with any company or organization.</p>
   </footer>
 </main>
@@ -206,8 +207,8 @@
   .card-arrow { font-size: 20px; color: #aaa; }
   .project-card p { margin-top: 12px; color: #999; font-size: 14px; line-height: 1.8; max-width: 560px; }
   .card-bottom { margin-top: 28px; font-size: 12px; }
-  .card-bottom > span:last-child { color: #aaa; }
-  footer a { font-size: 13px; }
+  .card-bottom > span:last-child { display: inline-flex; align-items: center; gap: 8px; color: #aaa; }
+  footer a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
   h2 { font-size: 20px; font-weight: 500; letter-spacing: -.5px; }
   .status { color: #747474; font-size: 12px; white-space: nowrap; }
   a { color: #d2d2d2; text-decoration: none; transition: color .15s; }
