@@ -1,3 +1,7 @@
+0.5.1 — 2026-10-22
+fix: make hero hover glow respond immediately
+- The home page hero hover glow now appears as soon as the pointer enters, without the previous delay.
+
 0.5.0 — 2026-10-22
 feat: extend pointer glow across hero background grid
 - The pointer glow on the home page now extends across the hero background grid.

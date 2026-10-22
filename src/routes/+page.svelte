@@ -88,12 +88,12 @@
   .grid { position: absolute; inset: -96px; background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px); background-size: 96px 96px; mask-image: radial-gradient(ellipse at 65% 50%, #000 0%, transparent 65%); animation: grid-drift 32s linear infinite; }
   .pointer-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; background: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #d8e6ff0c, transparent 100%); mask-image: radial-gradient(circle 260px at var(--pointer-x) var(--pointer-y), #000 15%, transparent 100%); }
   .pointer-light::after { content: ''; position: absolute; inset: -96px; background-image: linear-gradient(#d8e6ff38 1px, transparent 1px), linear-gradient(90deg, #d8e6ff38 1px, transparent 1px); background-size: 96px 96px; animation: grid-drift 32s linear infinite; }
-  .background-lit .pointer-light { opacity: 1; transition-duration: .25s; }
+  .background-lit .pointer-light { opacity: 1; transition-duration: 0s; }
   .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); aspect-ratio: 1; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
   .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
   .ghost-base { opacity: .055; }
   .ghost-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; mask-image: radial-gradient(circle 130px at var(--light-x) var(--light-y), #000 0%, #0009 35%, transparent 100%); filter: drop-shadow(0 0 5px #ffffffb3) drop-shadow(0 0 18px #c8dcff80); }
-  .lit .ghost-light { opacity: .85; transition-duration: .25s; }
+  .lit .ghost-light { opacity: .85; transition-duration: 0s; }
   @keyframes logo-float { from { transform: translate(-54%, -55%) rotate(-9deg); } to { transform: translate(-46%, -45%) rotate(9deg); } }
   @keyframes drift { from { transform: translate(-60%, -55%) scale(.85); opacity: .55; } to { transform: translate(-40%, -45%) scale(1.15); opacity: 1; } }
   @keyframes grid-drift { from { transform: translate(0, 0); } to { transform: translate(96px, 96px); } }
