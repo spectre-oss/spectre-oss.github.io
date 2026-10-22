@@ -1,3 +1,7 @@
+0.14.0 — 2026-10-22
+feat: stagger hero content rise after opening animation
+- Hero content on the home page now rises in a staggered sequence after the opening animation finishes.
+
 0.13.2 — 2026-10-22
 fix: limit homepage intro to full loads without hash anchors
 - The homepage intro now runs only on a full page load that has no hash anchor, so in-page links no longer replay it.

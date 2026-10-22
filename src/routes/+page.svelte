@@ -49,7 +49,7 @@
   onMount(() => {
     if (window.location.hash || introPlayed || matchMedia('(prefers-reduced-motion: reduce)').matches) intro = false;
     introPlayed = true;
-    const finishIntro = setTimeout(() => intro = false, 1700);
+    const finishIntro = setTimeout(() => intro = false, 1950);
     return () => clearTimeout(finishIntro);
   });
 
@@ -157,7 +157,7 @@
 <a class="identity" class:entering={intro} class:scrolled={scrollY > 24} href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
 
 <main>
-  <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
+  <header class="hero" class:revealing={intro} bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
     <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><canvas class="cloth-grid" bind:this={meshCanvas}></canvas><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-idle">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
 
@@ -193,6 +193,10 @@
   main { overflow: clip; }
   .hero { position: relative; isolation: isolate; min-height: 100vh; min-height: 100svh; display: flex; }
   .hero-inner { position: relative; width: min(100%, 760px); margin: 0 auto; padding: 48px 32px 40px; display: flex; flex-direction: column; }
+  .hero.revealing .intro { animation: hero-rise .65s cubic-bezier(.16,1,.3,1) 1.05s both; }
+  .hero.revealing .description { animation: hero-rise .65s cubic-bezier(.16,1,.3,1) 1.18s both; }
+  .hero.revealing .explore { animation: hero-rise .55s cubic-bezier(.16,1,.3,1) 1.32s both; }
+  @keyframes hero-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
   .hero-copy { margin: auto 0; padding: 64px 0; }
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
@@ -251,5 +255,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .identity { --identity-top: 16px; } .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-card { padding: 22px; } }
-  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg, .identity.entering { animation: none; } .intro-cover { display: none; } }
+  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg, .identity.entering { animation: none; } .intro-cover { display: none; } .hero.revealing .intro, .hero.revealing .description, .hero.revealing .explore { animation: none; } }
 </style>
