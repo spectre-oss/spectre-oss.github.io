@@ -8,7 +8,7 @@
   import { onMount } from 'svelte';
   import { afterNavigate } from '$app/navigation';
   import ghostSource from '#lib/assets/favicon.svg?raw';
-  const ghostMarkup = ghostSource.replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
+  const ghostMarkup = ghostSource.replace(/d="(M75\.6[\s\S]*?)M79/, 'class="ghost-eyes" d="$1" /><path d="M79').replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
   let logo: HTMLDivElement;
   let hero: HTMLElement;
   let intro = $state(true);
@@ -24,7 +24,9 @@
   let pointerX = $state(0);
   let pointerY = $state(0);
   let backgroundLit = $state(false);
-  function clearLight() { lit = false; backgroundLit = false; }
+  function clearLight() { lit = false; backgroundLit = false; eyeX = 0; eyeY = 0; }
+  let eyeX = $state(0);
+  let eyeY = $state(0);
   let lightX = $state(50);
   let lightY = $state(50);
   let lit = $state(false);
@@ -38,6 +40,8 @@
     const bounds = logo.getBoundingClientRect();
     lightX = (event.clientX - bounds.left) / bounds.width * 100;
     lightY = (event.clientY - bounds.top) / bounds.height * 100;
+    eyeX = Math.max(-2.5, Math.min(2.5, (lightX - 50) / 16));
+    eyeY = Math.max(-2, Math.min(2, (lightY - 50) / 20));
     lit = lightX >= 0 && lightX <= 100 && lightY >= 0 && lightY <= 100;
   }
   import { version } from '../../package.json';
@@ -158,7 +162,7 @@
 
 <main>
   <header class="hero" class:revealing={intro} bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
-    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><canvas class="cloth-grid" bind:this={meshCanvas}></canvas><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-idle">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><canvas class="cloth-grid" bind:this={meshCanvas}></canvas><div class="background-logo" bind:this={logo} class:lit style:--eye-x={eyeX + 'px'} style:--eye-y={eyeY + 'px'} style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-idle">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
 
     <div class="hero-copy">
@@ -204,6 +208,9 @@
   .idle-glow { position: absolute; left: 70%; top: calc(50% + clamp(85px, 14vw, 210px)); width: clamp(260px, 35vw, 520px); height: clamp(100px, 12vw, 180px); transform: translate(-50%, -50%); background: radial-gradient(ellipse, #d8e6ff26 0%, #d8e6ff0c 38%, transparent 72%); opacity: 1; transition: opacity .6s ease; }
   .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); aspect-ratio: 1; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
   .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
+  .background-logo :global(.ghost-eyes) { transform-box: fill-box; transform-origin: center; translate: var(--eye-x, 0px) var(--eye-y, 0px); transition: translate .2s ease-out; animation: ghost-blink 5s infinite, eye-glimmer 5s infinite; }
+  @keyframes ghost-blink { 0%, 44%, 49%, 100% { transform: scaleY(1); } 46% { transform: scaleY(.08); } }
+  @keyframes eye-glimmer { 0%, 40%, 55%, 100% { opacity: 1; filter: drop-shadow(0 0 0px #fff); } 50% { opacity: 1; filter: drop-shadow(0 0 3px #fff); } }
   .ghost-occlusion { position: absolute; inset: 0; }
   .ghost-base { position: relative; opacity: .055; }
   .ghost-idle { position: absolute; inset: 0; opacity: .45; filter: drop-shadow(0 0 5px #d8e6ffb3) drop-shadow(0 0 18px #c8dcff80); }
@@ -255,5 +262,5 @@
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
   @media (max-width: 480px) { .identity { --identity-top: 16px; } .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-card { padding: 22px; } }
-  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg, .identity.entering { animation: none; } .intro-cover { display: none; } .hero.revealing .intro, .hero.revealing .description, .hero.revealing .explore { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg, .identity.entering { animation: none; } .background-logo :global(.ghost-eyes) { animation: none; transition: none; translate: none; } .intro-cover { display: none; } .hero.revealing .intro, .hero.revealing .description, .hero.revealing .explore { animation: none; } }
 </style>

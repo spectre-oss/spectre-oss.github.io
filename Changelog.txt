@@ -1,3 +1,7 @@
+0.15.0 — 2026-10-22
+feat: animate ghost eyes with blinking glow and pointer tracking
+- Ghost eyes on the home page now blink with a soft glow and follow the pointer.
+
 0.14.0 — 2026-10-22
 feat: stagger hero content rise after opening animation
 - Hero content on the home page now rises in a staggered sequence after the opening animation finishes.
