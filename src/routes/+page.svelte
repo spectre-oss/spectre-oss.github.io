@@ -6,6 +6,7 @@
   const ghostMarkup = ghostSource.replace(/<rect[^>]*\/>/, '').replace('role="img" aria-label="Spectre ghost logo"', 'aria-hidden="true"');
   let logo: HTMLDivElement;
   let hero: HTMLElement;
+  let scrollY = $state(0);
   let meshCanvas: HTMLCanvasElement;
   let ripples: { x: number; y: number; start: number }[] = [];
   function ripple(event: MouseEvent) {
@@ -132,13 +133,15 @@
   <meta name="theme-color" content="#000000" />
 </svelte:head>
 
-<svelte:window onclick={ripple} onpointermove={illuminate} onblur={clearLight} onpointerout={(event) => { if (!event.relatedTarget) clearLight(); }} />
+<svelte:window bind:scrollY onclick={ripple} onpointermove={illuminate} onblur={clearLight} onpointerout={(event) => { if (!event.relatedTarget) clearLight(); }} />
+
+<a class="identity" class:scrolled={scrollY > 24} href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
 
 <main>
   <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
     <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><canvas class="cloth-grid" bind:this={meshCanvas}></canvas><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-idle">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
-    <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
+
     <div class="hero-copy">
     <p class="intro">Open software.<br />Hardware on your terms.</p>
     <p class="description">We explore hardware, build independent Linux systems, and share the tools to make existing devices your own.</p>
@@ -192,7 +195,9 @@
   @keyframes chevron-bounce { 0%, 55%, 100% { transform: translateY(-1px); animation-timing-function: cubic-bezier(.2,.8,.2,1); } 22% { transform: translateY(4px); animation-timing-function: cubic-bezier(.16,1,.3,1); } 40% { transform: translateY(-2px); } }
   section, footer { width: min(100% - 64px, 696px); margin-left: auto; margin-right: auto; }
   footer { margin-bottom: 32px; }
-  .identity { align-self: center; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
+  .identity { position: fixed; z-index: 50; top: 24px; left: 50%; transform: translateX(-50%); min-height: 44px; padding: 8px 16px; border: 1px solid transparent; border-radius: 999px; background: transparent; transition: background .2s, border-color .2s, box-shadow .2s; align-self: center; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
+  .identity.scrolled { background: rgba(18,18,18,.88); border-color: #ffffff24; backdrop-filter: blur(16px); box-shadow: 0 4px 20px #0005; }
+  .identity.scrolled:hover { background: #222; border-color: #ffffff40; }
   p, h1, h2 { margin: 0; }
   .intro { color: #f2f2f2; font-size: clamp(32px, 6vw, 46px); font-weight: 450; letter-spacing: -1.7px; line-height: 1.2; }
   .description { max-width: 520px; margin-top: 24px; color: #999; font-size: 16px; }
@@ -218,6 +223,6 @@
   footer > div { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .version, footer p { color: #606060; font-size: 11px; }
   footer p { margin-top: 12px; }
-  @media (max-width: 480px) { .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-card { padding: 22px; } }
-  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg { animation: none; } }
+  @media (max-width: 480px) { .identity { top: 16px; } .hero-inner { padding: 28px 24px; } section, footer { width: calc(100% - 48px); } section { margin-top: 48px; } .project-card { padding: 22px; } }
+  @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } a, .identity, .project-card, .ghost-light, .idle-glow { transition: none; } .halo, .background-logo, .explore svg { animation: none; } }
 </style>

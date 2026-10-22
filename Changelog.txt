@@ -1,3 +1,7 @@
+0.12.0 — 2026-10-22
+feat: add fixed scroll pill to homepage wordmark
+- The homepage wordmark now stays in a fixed pill as you scroll.
+
 0.11.0 — 2026-10-22
 feat: keep project navigation fixed with scroll activated pills
 - Project pages keep the section navigation fixed while you scroll.
