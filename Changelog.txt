@@ -1,3 +1,7 @@
+0.7.1 — 2026-10-22
+fix: illuminate lower ghost outline without hovering
+- The lower ghost outline now lights up on its own, without needing a hover.
+
 0.7.0 — 2026-10-22
 feat: deform background mesh with delayed cloth motion
 - The background mesh now deforms with a delayed cloth-like motion.

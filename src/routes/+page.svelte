@@ -108,7 +108,7 @@
 
 <main>
   <header class="hero" bind:this={hero} class:background-lit={backgroundLit} style:--pointer-x={pointerX + 'px'} style:--pointer-y={pointerY + 'px'}>
-    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><canvas class="cloth-grid" bind:this={meshCanvas}></canvas><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
+    <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="idle-glow"></div><canvas class="cloth-grid" bind:this={meshCanvas}></canvas><div class="background-logo" bind:this={logo} class:lit style:--light-x={lightX + '%'} style:--light-y={lightY + '%'}><svg class="ghost-occlusion" viewBox="0 0 512 512" aria-hidden="true"><path transform="translate(83.2 100) scale(1.6)" fill="#000" d="M107 10C80 7 61 25 54 49L46 88Q43 108 25 103Q9 99 11 115Q13 127 25 138L29 145Q25 159 42 159Q51 158 54 169Q61 189 83 182L101 176Q110 175 121 180Q141 190 155 174Q162 165 175 167Q196 168 193 149L189 132Q203 114 201 104Q202 90 185 90Q166 89 157 66L145 36Q132 11 107 10Z" /></svg><div class="ghost-base">{@html ghostMarkup}</div><div class="ghost-idle">{@html ghostMarkup}</div><div class="ghost-light">{@html ghostMarkup}</div></div></div>
     <div class="hero-inner">
     <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
     <div class="hero-copy">
@@ -159,12 +159,12 @@
   .hero-background { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #000; }
   .halo { position: absolute; width: max(900px, 100vw); height: max(900px, 100vw); top: 48%; left: 65%; border-radius: 50%; background: radial-gradient(ellipse, #ffffff0d 0%, #ffffff06 24%, transparent 62%); transform: translate(-50%, -50%); animation: drift 24s ease-in-out infinite alternate; }
   .cloth-grid { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .idle-glow { position: absolute; left: 70%; top: calc(50% + clamp(85px, 14vw, 210px)); width: clamp(260px, 35vw, 520px); height: clamp(100px, 12vw, 180px); transform: translate(-50%, -50%); background: radial-gradient(ellipse, #d8e6ff18 0%, #d8e6ff07 38%, transparent 72%); opacity: 1; transition: opacity .6s ease; }
-  .background-lit .idle-glow { opacity: 0; }
+  .idle-glow { position: absolute; left: 70%; top: calc(50% + clamp(85px, 14vw, 210px)); width: clamp(260px, 35vw, 520px); height: clamp(100px, 12vw, 180px); transform: translate(-50%, -50%); background: radial-gradient(ellipse, #d8e6ff26 0%, #d8e6ff0c 38%, transparent 72%); opacity: 1; transition: opacity .6s ease; }
   .background-logo { position: absolute; top: 50%; left: 70%; width: clamp(280px, 46vw, 680px); aspect-ratio: 1; transform: translate(-50%, -50%); animation: logo-float 20s ease-in-out infinite alternate; will-change: transform; }
   .background-logo :global(svg) { display: block; width: 100%; height: 100%; overflow: visible; }
   .ghost-occlusion { position: absolute; inset: 0; }
   .ghost-base { position: relative; opacity: .055; }
+  .ghost-idle { position: absolute; inset: 0; opacity: .45; mask-image: radial-gradient(ellipse 48% 32% at 50% 78%, #000 15%, #0009 50%, transparent 100%); filter: drop-shadow(0 0 5px #d8e6ffb3) drop-shadow(0 0 18px #c8dcff80); }
   .ghost-light { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; mask-image: radial-gradient(circle 130px at var(--light-x) var(--light-y), #000 0%, #0009 35%, transparent 100%); filter: drop-shadow(0 0 5px #ffffffb3) drop-shadow(0 0 18px #c8dcff80); }
   .lit .ghost-light { opacity: .85; transition-duration: 0s; }
   @keyframes logo-float { from { transform: translate(-54%, -55%) rotate(-9deg); } to { transform: translate(-46%, -45%) rotate(9deg); } }
