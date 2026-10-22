@@ -13,7 +13,7 @@
   <header class="hero">
     <div class="hero-background" aria-hidden="true"><div class="halo"></div><div class="grid"></div><img class="background-logo" src={ghost} alt="" /></div>
     <div class="hero-inner">
-    <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><img src={ghost} alt="" width="38" height="38" /><span>SpectreOSS</span></a>
+    <a class="identity" href="https://github.com/spectre-oss" aria-label="SpectreOSS on GitHub"><span>SpectreOSS</span></a>
     <div class="hero-copy">
     <p class="intro">Open software.<br />Hardware on your terms.</p>
     <p class="description">We explore hardware, build independent Linux systems, and share the tools to make existing devices your own.</p>
@@ -71,7 +71,6 @@
   section, footer { width: min(100% - 64px, 696px); margin-left: auto; margin-right: auto; }
   footer { margin-bottom: 32px; }
   .identity { align-self: flex-start; display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 550; letter-spacing: -.4px; text-decoration: none; }
-  .identity img { display: block; border-radius: 50%; }
   p, h1, h2 { margin: 0; }
   .intro { color: #f2f2f2; font-size: clamp(32px, 6vw, 46px); font-weight: 450; letter-spacing: -1.7px; line-height: 1.2; }
   .description { max-width: 520px; margin-top: 24px; color: #999; font-size: 16px; }
